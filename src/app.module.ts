@@ -7,6 +7,8 @@ import { AuthMiddleware } from './auth.middleware';
 import { TokenModule } from './token/token.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DB } from 'config';
+import { WinstonModule } from 'nest-winston';
+import loggerConfig  from '../logger.config';
 
 
 @Module({
@@ -23,8 +25,8 @@ import { DB } from 'config';
       database: DB.database,
       entities: [__dirname + '/**/*.entity.{ts,js}'],
       synchronize: true,
-      logging: true
-  }),
+    }),
+    WinstonModule.forRoot(loggerConfig),
     UserModule,
     TokenModule,
   ],
