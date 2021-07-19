@@ -1,17 +1,19 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException, Inject, LoggerService } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { UserRo, CreateUserDto, LoginUserDto } from './Dto/UserDto';
 import { TokenService } from '../token/token.service';
 import * as bcrypt from 'bcrypt';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly tokenService: TokenService
+    private readonly tokenService: TokenService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: LoggerService
   ) {}
 
   //saves user to database

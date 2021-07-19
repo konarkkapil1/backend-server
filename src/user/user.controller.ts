@@ -23,8 +23,8 @@ export class UserController {
   //signup route
   @Post('signup')
   @UsePipes(ValidationPipe)
-  create(@Body() user: CreateUserDto): Promise<UserRo> {
-    this.logger.log('http', `CONTROLLER: POST /signup request received`);
+  create(@Body() user: CreateUserDto, @Request() req): Promise<UserRo> {
+    this.logger.log('http', `CONTROLLER: POST /signup email: ${user.email} ip: ${req.connection.remoteAddress}`);
 
     return this.userService.create(user);
   }
@@ -32,7 +32,9 @@ export class UserController {
   //logn route
   @Post('login')
   @UsePipes(ValidationPipe)
-  login(@Body() user: LoginUserDto): Promise<UserRo> {
+  login(@Body() user: LoginUserDto, @Request() req): Promise<UserRo> {
+    this.logger.log('http', `CONTROLLER: POST /login email: ${user.email} ip: ${req.connection.remoteAddress}`);
+
     return this.userService.login(user);
   }
 

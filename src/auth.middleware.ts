@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import { TOKEN } from 'config';
+import { TOKEN } from 'config/app.config';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
