@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException, Inject, LoggerService } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException, Inject, LoggerService, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
@@ -13,11 +13,12 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly tokenService: TokenService,
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: LoggerService
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger
   ) {}
 
   //saves user to database
   public async create(user: CreateUserDto): Promise<UserRo> {
+
     const isUserPresent = await this.userRepository.findOne({
       email: user.email,
     });
