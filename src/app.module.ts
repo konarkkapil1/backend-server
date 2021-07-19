@@ -8,7 +8,7 @@ import { TokenModule } from './token/token.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DB } from 'config/app.config';
 import { WinstonModule } from 'nest-winston';
-import loggerConfig  from '../config/logger.config';
+import loggerConfig  from 'config/logger.config';
 
 
 @Module({
