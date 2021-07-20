@@ -4,7 +4,6 @@ import {
   Get,
   Inject,
   Logger,
-  LoggerService,
   Post,
   Request,
   UsePipes,
@@ -25,7 +24,7 @@ export class UserController {
   @Post('signup')
   @UsePipes(ValidationPipe)
   create(@Body() user: CreateUserDto, @Request() req): Promise<UserRo> {
-    this.logger.log('info', `{'METHOD': 'POST', 'ROUTE': 'signup', 'IP': '${req.remoteAddress}'}`);
+    this.logger.log('info', `{'METHOD': 'POST', 'ROUTE': 'signup', 'USER': ${user.email} ,'IP': '${req.connection.remoteAddress}'}`);
 
     return this.userService.create(user);
   }
@@ -34,12 +33,16 @@ export class UserController {
   @Post('login')
   @UsePipes(ValidationPipe)
   login(@Body() user: LoginUserDto, @Request() req): Promise<UserRo> {
+    this.logger.log('info', `{'METHOD': 'POST', 'ROUTE': 'login', 'USER': ${user.email}, 'IP': '${req.connection.remoteAddress}'}`);
+
     return this.userService.login(user);
   }
 
   //testing route
   @Get('protected')
   test(@Request() req) {
+    this.logger.log('info', `{'METHOD': 'GET', 'ROUTE': 'protected', 'USER': ${req.user.email}, 'IP': '${req.connection.remoteAddress}'}`);
+
     return {
       "message": "protected route",
       "user": req.user
