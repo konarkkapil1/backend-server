@@ -10,7 +10,6 @@ import { DB } from 'config/app.config';
 import { WinstonModule } from 'nest-winston';
 import loggerConfig  from 'config/logger.config';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,6 +32,7 @@ import loggerConfig  from 'config/logger.config';
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
@@ -41,6 +41,7 @@ export class AppModule {
       {path: 'api', method: RequestMethod.ALL},
       {path: 'api/user/signup', method: RequestMethod.POST},
       {path: 'api/user/login', method: RequestMethod.POST},
+      {path: 'api/token/refresh', method: RequestMethod.POST},
     )
     .forRoutes({path: '*', method: RequestMethod.ALL});
   }

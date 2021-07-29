@@ -1,8 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException, Inject, LoggerService, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException, Inject, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
-import { UserRo, CreateUserDto, LoginUserDto } from './Dto/UserDto';
+import { UserRo, CreateUserDto, LoginUserDto } from './Dto/User.Dto';
 import { TokenService } from '../token/token.service';
 import * as bcrypt from 'bcrypt';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -43,7 +43,7 @@ export class UserService {
 
     try {
       const newUser = await this.userRepository.findOne({ email: user.email });
-      const token = this.tokenService.generate(user as UserEntity);
+      const token = this.tokenService.generateTokens(user as UserEntity);
       
       return this.sanitizeUser(newUser, token);
     } catch (error) {
@@ -74,7 +74,7 @@ export class UserService {
     }
 
     try {
-      const token = this.tokenService.generate(isUserPresent as UserEntity);
+      const token = this.tokenService.generateTokens(isUserPresent as UserEntity);
 
       return this.sanitizeUser(isUserPresent, token);
     }catch(error) {
@@ -97,7 +97,10 @@ export class UserService {
         createdAt: user.createdAt,
         updatedAt: user.updatedAt
       },
-      token: token
+      token: {
+        access_token: token.access_token,
+        refresh_token: token.refresh_token,
+      }
     } as UserRo;
 
   }

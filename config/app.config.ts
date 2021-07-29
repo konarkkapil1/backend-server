@@ -8,7 +8,9 @@ export const DB = {
 };
 
 export const TOKEN = {
-    secret: process.env.secret || 'verystrongsecret',
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET || 'verystrongaccesstokensecret',
+    refresh_token_secret: process.env.REFRESH_TOKEN_SECRET || 'verystrongrefreshtokensecret',
+    token_issuer: process.env.TOKEN_ISSUER || 'localhost',
 }
 
 export const APP = {
