@@ -10,7 +10,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserRo, CreateUserDto, LoginUserDto } from './Dto/UserDto';
+import { UserRo, CreateUserDto, LoginUserDto } from './Dto/User.Dto';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Controller('user')
@@ -24,7 +24,7 @@ export class UserController {
   @Post('signup')
   @UsePipes(ValidationPipe)
   create(@Body() user: CreateUserDto, @Request() req): Promise<UserRo> {
-    this.logger.log('info', `{'METHOD': 'POST', 'ROUTE': 'signup', 'USER': ${user.email} ,'IP': '${req.connection.remoteAddress}'}`);
+    this.logger.log('info', `{'CONTROLLER': 'USER', 'ROUTE': 'signup', 'METHOD': 'POST', 'USER': ${user.email} ,'IP': '${req.connection.remoteAddress}'}`);
 
     return this.userService.create(user);
   }
@@ -33,7 +33,7 @@ export class UserController {
   @Post('login')
   @UsePipes(ValidationPipe)
   login(@Body() user: LoginUserDto, @Request() req): Promise<UserRo> {
-    this.logger.log('info', `{'METHOD': 'POST', 'ROUTE': 'login', 'USER': ${user.email}, 'IP': '${req.connection.remoteAddress}'}`);
+    this.logger.log('info', `{'CONTROLLER': 'USER', 'ROUTE': 'login', 'METHOD': 'POST', 'USER': ${user.email}, 'IP': '${req.connection.remoteAddress}'}`);
 
     return this.userService.login(user);
   }
@@ -41,7 +41,7 @@ export class UserController {
   //testing route
   @Get('protected')
   test(@Request() req) {
-    this.logger.log('info', `{'METHOD': 'GET', 'ROUTE': 'protected', 'USER': ${req.user.email}, 'IP': '${req.connection.remoteAddress}'}`);
+    this.logger.log('info', `{'CONTROLLER: 'USER', 'ROUTE': 'protected', 'METHOD': 'GET', 'USER': ${req.user.email}, 'IP': '${req.connection.remoteAddress}'}`);
 
     return {
       "message": "protected route",

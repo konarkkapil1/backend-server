@@ -12,7 +12,7 @@ export interface IUser {
 
 export interface UserRo {
     user: IUser,
-    token: string
+    token: object
 }
 
 export class CreateUserDto {
