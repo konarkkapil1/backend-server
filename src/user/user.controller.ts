@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Inject,
   Logger,
   Post,
@@ -30,6 +31,7 @@ export class UserController {
   }
 
   //logn route
+  @HttpCode(200)
   @Post('login')
   @UsePipes(ValidationPipe)
   login(@Body() user: LoginUserDto, @Request() req): Promise<UserRo> {
