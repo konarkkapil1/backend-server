@@ -3,11 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TokenEntity } from 'src/token/token.entity';
 
-@Entity('users')
+@Entity('user')
 export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
@@ -29,4 +32,7 @@ export class UserEntity extends BaseEntity {
 
   @UpdateDateColumn({type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)"})
   updatedAt: Date;
+
+  @OneToMany(type => TokenEntity, (token) => token.user)
+  tokens: TokenEntity[]
 }

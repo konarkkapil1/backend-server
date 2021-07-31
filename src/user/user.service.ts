@@ -43,7 +43,7 @@ export class UserService {
 
     try {
       const newUser = await this.userRepository.findOne({ email: user.email });
-      const token = this.tokenService.generateTokens(user as UserEntity);
+      const token = await this.tokenService.generateTokens(user as UserEntity);
       
       return this.sanitizeUser(newUser, token);
     } catch (error) {
@@ -74,7 +74,7 @@ export class UserService {
     }
 
     try {
-      const token = this.tokenService.generateTokens(isUserPresent as UserEntity);
+      const token = await this.tokenService.generateTokens(isUserPresent as UserEntity);
 
       return this.sanitizeUser(isUserPresent, token);
     }catch(error) {
