@@ -6,7 +6,6 @@ import { UserModule } from './user/user.module';
 import { AuthMiddleware } from './auth.middleware';
 import { TokenModule } from './token/token.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DB } from 'config/app.config';
 import { WinstonModule } from 'nest-winston';
 import loggerConfig  from 'config/logger.config';
 
@@ -14,14 +13,15 @@ import loggerConfig  from 'config/logger.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: `environment/.env.${process.env.NODE_ENV}`
     }),
     TypeOrmModule.forRoot({
-      type: DB.type,
-      host: DB.host,
-      port: DB.port,
-      username: DB.username,
-      password: DB.password,
-      database: DB.database,
+      type: process.env.DB_TYPE as any,
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity.{ts,js}'],
       synchronize: true,
     }),

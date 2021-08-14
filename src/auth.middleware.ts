@@ -1,6 +1,5 @@
 import { Inject, Injectable, Logger, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import { TOKEN } from 'config/app.config';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Injectable()
@@ -25,7 +24,7 @@ export class AuthMiddleware implements NestMiddleware {
 
     try{
       
-      const user: any = jwt.verify(accessToken, TOKEN.access_token_secret);
+      const user: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
       
       req.user = {
         id: user.sub,
