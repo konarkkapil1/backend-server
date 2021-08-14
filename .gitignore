@@ -38,6 +38,7 @@ lerna-debug.log*
 .env.mysql
 .env.prod
 .env.prod.example
+.env.*
 
 #vscode
 .vscode
