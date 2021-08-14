@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { UserEntity } from 'src/user/user.entity';
-import { TOKEN } from 'config/app.config';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TokenEntity } from './token.entity';
@@ -44,7 +43,7 @@ export class TokenService {
 
     private generateAccessToken(user: UserEntity, date: number, id: string) {
         let exp = date + (60);
-        let key = TOKEN.access_token_secret;
+        let key = process.env.ACCESS_TOKEN_SECRET;
         
         const payload: object = {
             iat: date,
@@ -53,7 +52,7 @@ export class TokenService {
             sub: user.id,
             id: id,
             alg: 'RS256',
-            iss: TOKEN.token_issuer
+            iss: process.env.TOKEN_ISSUER
         }
         
         return jwt.sign(
@@ -65,7 +64,7 @@ export class TokenService {
 
     private generateRefreshToken(user: UserEntity, date: number, id: string) {
         let exp = date + (60 * 60 * 24 * 7 * 4);
-        let key = TOKEN.refresh_token_secret;
+        let key = process.env.REFRESH_TOKEN_SECRET;
         
         const payload: object = {
             iat: date,
@@ -74,7 +73,7 @@ export class TokenService {
             sub: user.id,
             id: id,
             alg: 'RS256',
-            iss: TOKEN.token_issuer
+            iss: process.env.TOKEN_ISSUER
         }
         
         return jwt.sign(
@@ -87,7 +86,7 @@ export class TokenService {
     // throws error if both tokens are expired
     public async verifyAndGenerateTokens(access_token: any, refresh_token: any): Promise<object | Error> {
         try{
-            jwt.verify(refresh_token, TOKEN.refresh_token_secret);
+            jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET);
 
             const userFromToken: any = jwt.decode(access_token);
 
